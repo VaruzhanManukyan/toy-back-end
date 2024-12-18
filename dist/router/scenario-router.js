@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const multer_audio_config_1 = require("../config/multer-audio-config");
+const auth_middleware_1 = __importDefault(require("../middlewares/auth-middleware"));
+const role_middleware_1 = __importDefault(require("../middlewares/role-middleware"));
+const role_enum_1 = require("../shared/enums/role-enum");
+const scenario_controller_1 = __importDefault(require("../controllers/scenario-controller"));
+const router = (0, express_1.Router)();
+router.post("/create", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), multer_audio_config_1.multerUploads, multer_audio_config_1.handleFileConversion, scenario_controller_1.default.create);
+router.post("/", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), scenario_controller_1.default.getAll);
+router.post("/read", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), scenario_controller_1.default.getById);
+router.post("/update", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), multer_audio_config_1.multerUploads, multer_audio_config_1.handleFileConversion, scenario_controller_1.default.update);
+router.post("/delete", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), scenario_controller_1.default.delete);
+router.post("/deleteMany", auth_middleware_1.default, (0, role_middleware_1.default)([role_enum_1.Roles.SUPER_ADMIN]), scenario_controller_1.default.deleteMany);
+router.post("/get_media_file_ids", scenario_controller_1.default.getMediaFileIds);
+exports.default = router;
